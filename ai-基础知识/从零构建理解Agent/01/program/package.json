@@ -1,0 +1,19 @@
+{
+  "name": "hello-agents",
+  "version": "1.0.0",
+  "description": "从零开始构建Agent框架",
+  "main": "reActAgent.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx reActAgent.ts",
+    "dev": "tsx watch reActAgent.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.0",
+    "serpapi": "^2.2.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}
