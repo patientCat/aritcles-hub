@@ -9,13 +9,33 @@
 ## 什么是大模型
 老实说，大模型在我的认知里，已经是类似动物园里的大象存在。 如果有人问我，大象是什么，我会告诉他大象长什么样， 或者画一个图给他。 但是大模型好像我画不出来。 那么继续按照我的思路， 如果我无法描述大象怎么办， 我会开车带他去看大象，摸大象。 那么对于大模型来说，也一样。
 
-只不过今天的这个车是"curl" 命令。 是一个用来给服务器发送请求的工具。他就是我们用来感知互联网世界的双手。 
+只不过今天的这个车是"curl" 命令。 是一个用来给服务器发送请求的工具。他就是我们用来感知互联网世界的双手。
 
-这个是deepseek的api网址，API_KEY可以自己注册一个。这里我自己有了。 
-> 原谅我的文字风格变啰嗦。。。
-> https://api-docs.deepseek.com/zh-cn/
+### curl 发出的 HTTP 请求长这样
 
-```curl
+```http
+POST https://api.deepseek.com/chat/completions HTTP/1.1
+Host: api.deepseek.com
+Content-Type: application/json
+Authorization: Bearer ${DEEPSEEK_API_KEY}
+
+{
+  "model": "deepseek-chat",
+  "messages": [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ],
+  "stream": false
+}
+```
+
+这就是 curl 发出的原始 HTTP 请求。第一行是请求行（方法 + URL + 协议版本），接下来是请求头，空行之后是请求体（JSON 格式）。
+
+你把这个和前端用 axios/fetch 发的请求对比，本质上是一模一样的——只是格式更原始，没有框架帮你封装。
+
+动手实践的话，直接在终端跑这个命令就好：
+
+```bash
 curl https://api.deepseek.com/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${DEEPSEEK_API_KEY}" \
@@ -29,10 +49,13 @@ curl https://api.deepseek.com/chat/completions \
       }'
 ```
 
-![](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/articles/20260326164240908.png)
-在任意一个终端请求。 就可以向大模型发送消息。 
+> 原谅我的文字风格变啰嗦。。。
+> https://api-docs.deepseek.com/zh-cn/
 
-现在我们知道，大模型是一个会和你说话的东西。 而且他很有礼貌。 
+![](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/articles/20260326164240908.png)
+
+在任意一个终端请求，就可以向大模型发送消息。现在我们知道，大模型是一个会和你说话的东西，而且他很有礼貌。
+
 ### 大模型和Agent的区别
 
 很多人不理解大模型和Agent的区别。 
@@ -139,5 +162,9 @@ print(f"Model>\t {message.content}")
 
 ## 结语
 
-到这里，你大概能模糊感觉大模型，或者Agent是个什么东西了。 其实到了后面，这些就会和我们日常生活的水，电一样。 
+![](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/articles/agent_any_where.png)
+
+到这里，你大概能模糊感觉大模型，或者Agent是个什么东西了。 其实到了后面，这些就会和我们日常生活的水，电一样。
 人类在最开始无法看到电的时候。是如何理解什么是电呢？ 肯定不是所有人都懂。 不会有人和你说是因为导体在磁场中运动，切割磁感线，从而产生了电。 而是对生活中的电灯，电器，等接触，慢慢有了理解。如果你现在还是不明白什么是Agent，大概率就是你没有主动接触过这些。当Agent像电一样伴随你的生活时，你就明白了。
+
+![](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/%E5%85%AC%E8%80%83/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg)
