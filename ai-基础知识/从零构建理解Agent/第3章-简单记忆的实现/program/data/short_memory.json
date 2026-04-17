@@ -1,0 +1,802 @@
+[
+  {
+    "id": "1776422871991-3f51bi",
+    "role": "assistant",
+    "content": "第003条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-4cnmbq",
+    "role": "user",
+    "content": "第004条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-nf3hi4",
+    "role": "assistant",
+    "content": "第005条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-nisj7d",
+    "role": "user",
+    "content": "第006条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-pbqqv1",
+    "role": "assistant",
+    "content": "第007条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-0rimfu",
+    "role": "user",
+    "content": "第008条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-2pz7xz",
+    "role": "assistant",
+    "content": "第009条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-874dme",
+    "role": "user",
+    "content": "第010条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-4hj8rg",
+    "role": "assistant",
+    "content": "第011条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-qfwgji",
+    "role": "user",
+    "content": "第012条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-k89n5x",
+    "role": "assistant",
+    "content": "第013条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-jqkytt",
+    "role": "user",
+    "content": "第014条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-magupo",
+    "role": "assistant",
+    "content": "第015条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-80a2mb",
+    "role": "user",
+    "content": "第016条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-qjicps",
+    "role": "assistant",
+    "content": "第017条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-1blnhn",
+    "role": "user",
+    "content": "第018条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-b4mdsn",
+    "role": "assistant",
+    "content": "第019条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-9bfz4p",
+    "role": "user",
+    "content": "第020条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-zofdgz",
+    "role": "assistant",
+    "content": "第021条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-z5hcg1",
+    "role": "user",
+    "content": "第022条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-098aao",
+    "role": "assistant",
+    "content": "第023条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-2phihd",
+    "role": "user",
+    "content": "第024条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-o5gzvk",
+    "role": "assistant",
+    "content": "第025条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-mouqfs",
+    "role": "user",
+    "content": "第026条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-mzqv9t",
+    "role": "assistant",
+    "content": "第027条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-2oreup",
+    "role": "user",
+    "content": "第028条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-lvptnu",
+    "role": "assistant",
+    "content": "第029条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-hd7agt",
+    "role": "user",
+    "content": "第030条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-4hct9a",
+    "role": "assistant",
+    "content": "第031条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-qwhv90",
+    "role": "user",
+    "content": "第032条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-orwgj4",
+    "role": "assistant",
+    "content": "第033条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-2ngiyi",
+    "role": "user",
+    "content": "第034条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-310naq",
+    "role": "assistant",
+    "content": "第035条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-p723tb",
+    "role": "user",
+    "content": "第036条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-fy2ppl",
+    "role": "assistant",
+    "content": "第037条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-z8b7dc",
+    "role": "user",
+    "content": "第038条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-h9taie",
+    "role": "assistant",
+    "content": "第039条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-hzpyzq",
+    "role": "user",
+    "content": "第040条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-hq9t2s",
+    "role": "assistant",
+    "content": "第041条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-wsiss9",
+    "role": "user",
+    "content": "第042条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-h5ko41",
+    "role": "assistant",
+    "content": "第043条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-bl38mh",
+    "role": "user",
+    "content": "第044条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-250azs",
+    "role": "assistant",
+    "content": "第045条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-utda3n",
+    "role": "user",
+    "content": "第046条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-rks8e5",
+    "role": "assistant",
+    "content": "第047条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-oaxhnf",
+    "role": "user",
+    "content": "第048条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-mgxfmk",
+    "role": "assistant",
+    "content": "第049条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-g2ywjp",
+    "role": "user",
+    "content": "第050条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-pn2xkd",
+    "role": "assistant",
+    "content": "第051条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-kntoqj",
+    "role": "user",
+    "content": "第052条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-r4w5xi",
+    "role": "assistant",
+    "content": "第053条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-sxwz4f",
+    "role": "user",
+    "content": "第054条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-br0h05",
+    "role": "assistant",
+    "content": "第055条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-z4xqh4",
+    "role": "user",
+    "content": "第056条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-ivpozo",
+    "role": "assistant",
+    "content": "第057条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-hs4ti4",
+    "role": "user",
+    "content": "第058条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-rw7lby",
+    "role": "assistant",
+    "content": "第059条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-eksv3b",
+    "role": "user",
+    "content": "第060条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871991-11a811",
+    "role": "assistant",
+    "content": "第061条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.991Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-2qf8rb",
+    "role": "user",
+    "content": "第062条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-tpcvv6",
+    "role": "assistant",
+    "content": "第063条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-oti0cb",
+    "role": "user",
+    "content": "第064条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-rhu8fq",
+    "role": "assistant",
+    "content": "第065条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-o5czw9",
+    "role": "user",
+    "content": "第066条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-f8s3dd",
+    "role": "assistant",
+    "content": "第067条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-xrcp5q",
+    "role": "user",
+    "content": "第068条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-s1qpn1",
+    "role": "assistant",
+    "content": "第069条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-au2lvi",
+    "role": "user",
+    "content": "第070条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-e192x9",
+    "role": "assistant",
+    "content": "第071条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-u6406y",
+    "role": "user",
+    "content": "第072条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-1m7gty",
+    "role": "assistant",
+    "content": "第073条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-ki6mhf",
+    "role": "user",
+    "content": "第074条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-38yrol",
+    "role": "assistant",
+    "content": "第075条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-9i002c",
+    "role": "user",
+    "content": "第076条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-owz7im",
+    "role": "assistant",
+    "content": "第077条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-bjq1st",
+    "role": "user",
+    "content": "第078条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-cyeqig",
+    "role": "assistant",
+    "content": "第079条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-3vt3z8",
+    "role": "user",
+    "content": "第080条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-aomlfi",
+    "role": "assistant",
+    "content": "第081条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-yxz35c",
+    "role": "user",
+    "content": "第082条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-nu6u26",
+    "role": "assistant",
+    "content": "第083条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-zl8sys",
+    "role": "user",
+    "content": "第084条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-7y2hn1",
+    "role": "assistant",
+    "content": "第085条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-vjygag",
+    "role": "user",
+    "content": "第086条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-zafh90",
+    "role": "assistant",
+    "content": "第087条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-w2fw2u",
+    "role": "user",
+    "content": "第088条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-0qhkqn",
+    "role": "assistant",
+    "content": "第089条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-h0uzcr",
+    "role": "user",
+    "content": "第090条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-wmk300",
+    "role": "assistant",
+    "content": "第091条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-oaocl5",
+    "role": "user",
+    "content": "第092条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-5stj4h",
+    "role": "assistant",
+    "content": "第093条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-d11re3",
+    "role": "user",
+    "content": "第094条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-zs8ajv",
+    "role": "assistant",
+    "content": "第095条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-1qgp8p",
+    "role": "user",
+    "content": "第096条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 2,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-seu75m",
+    "role": "assistant",
+    "content": "第097条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 3,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-4jgm46",
+    "role": "user",
+    "content": "第098条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 4,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-28y1as",
+    "role": "assistant",
+    "content": "第099条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776422871992-ktpzmw",
+    "role": "user",
+    "content": "第100条消息: 项目A面试准备, 系统设计, 行为题复盘",
+    "ts": "2026-04-17T10:47:51.992Z",
+    "importance": 1,
+    "tier": "short"
+  },
+  {
+    "id": "1776433504596-maj2to",
+    "role": "user",
+    "content": "我下周三有技术面试",
+    "ts": "2026-04-17T13:45:04.596Z",
+    "importance": 5,
+    "tier": "short"
+  },
+  {
+    "id": "1776433504637-ue4jel",
+    "role": "user",
+    "content": "我准备系统设计",
+    "ts": "2026-04-17T13:45:04.637Z",
+    "importance": 3,
+    "tier": "short"
+  }
+]
