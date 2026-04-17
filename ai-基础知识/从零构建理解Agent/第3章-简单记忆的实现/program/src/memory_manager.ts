@@ -1,5 +1,5 @@
 import { buildSummary } from "./summarizer";
-import { rankBySemantic } from "./semantic_retriever";
+import { indexMemoryItem, rankBySemantic } from "./semantic_retriever";
 import { MemoryItem, Role } from "./types";
 
 export interface MemoryOptions {
@@ -47,6 +47,7 @@ export class LayeredMemoryManager {
 
     this.shortTerm.push(item);
     if (this.shortTerm.length > this.shortMaxItems) this.shortTerm.shift();
+    await indexMemoryItem(item);
 
     if (item.importance >= 4 || role === "system") {
       this.addLongTerm({ ...item, tier: "long" });
@@ -106,14 +107,16 @@ export class LayeredMemoryManager {
     const content = await buildSummary(chunk);
     if (!content) return;
 
-    this.addLongTerm({
+    const summaryItem: MemoryItem = {
       id: createId(),
       role: "system",
       content: `[summary] ${content}`,
       ts: new Date().toISOString(),
       importance: 5,
       tier: "summary",
-    });
+    };
+    this.addLongTerm(summaryItem);
+    await indexMemoryItem(summaryItem);
   }
 }
 

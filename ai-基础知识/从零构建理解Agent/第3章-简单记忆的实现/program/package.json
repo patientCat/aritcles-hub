@@ -7,7 +7,8 @@
     "dev": "ts-node src/main.ts",
     "build": "tsc",
     "start": "node dist/main.js",
-    "test": "echo \"No tests yet\""
+    "react": "ts-node src/main.ts",
+    "test": "npm run build && node --test dist/test/**/*.test.js"
   },
   "keywords": [],
   "author": "",
