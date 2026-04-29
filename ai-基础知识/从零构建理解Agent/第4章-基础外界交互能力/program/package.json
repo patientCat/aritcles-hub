@@ -1,0 +1,29 @@
+{
+  "name": "program",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "ts-node src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "react": "ts-node src/main.ts",
+    "sdk": "tsx src/sdk_main.ts",
+    "test": "npm run build && node --test dist/test/**/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.8.5",
+    "dotenv": "^17.4.2",
+    "zod": "^4.3.6"
+  }
+}
