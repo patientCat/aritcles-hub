@@ -1,0 +1,24 @@
+{"ts":"2026-04-29T06:45:53.175Z","event":"request.start","session_id":"sess_demo_001","req_id":"req_mojoy9ou_80kg66","payload":{"user_input":"现在时间?"}}
+{"ts":"2026-04-29T06:45:54.082Z","event":"tool.start","session_id":"sess_demo_001","req_id":"req_mojoy9ou_80kg66","payload":{"tool":"NowTime","timezone":"Asia/Shanghai"}}
+{"ts":"2026-04-29T06:45:54.101Z","event":"tool.success","session_id":"sess_demo_001","req_id":"req_mojoy9ou_80kg66","payload":{"tool":"NowTime","output":"Asia/Shanghai 2026/04/29 14:45:54"}}
+{"ts":"2026-04-29T06:45:55.071Z","event":"request.end","session_id":"sess_demo_001","req_id":"req_mojoy9ou_80kg66","payload":{"output_preview":"当前时间（北京时间）：**2026年4月29日 14:45:54** ✅（已调用工具）"}}
+{"ts":"2026-04-29T06:48:20.063Z","event":"request.start","session_id":"sess_mojp1f16_wr7lxj","req_id":"req_mojp1f16_vawxq0","payload":{"user_input":"现在上海几点？"}}
+{"ts":"2026-04-29T06:48:21.275Z","event":"tool.start","session_id":"sess_mojp1f16_wr7lxj","req_id":"req_mojp1f16_vawxq0","payload":{"tool":"NowTime","timezone":"Asia/Shanghai"}}
+{"ts":"2026-04-29T06:48:21.294Z","event":"tool.success","session_id":"sess_mojp1f16_wr7lxj","req_id":"req_mojp1f16_vawxq0","payload":{"tool":"NowTime","output":"Asia/Shanghai 2026/04/29 14:48:21"}}
+{"ts":"2026-04-29T06:48:22.304Z","event":"request.end","session_id":"sess_mojp1f16_wr7lxj","req_id":"req_mojp1f16_vawxq0","payload":{"output_preview":"现在是上海时间 **2026年4月29日 14:48**（下午 2 点 48 分）。\n\n（已调用工具获取时间）"}}
+{"ts":"2026-04-29T07:54:11.339Z","event":"request.start","session_id":"sess_mojre3ut_hlffw9","req_id":"req_mojre3uz_deggw0","payload":{"user_input":"现在时间?"}}
+{"ts":"2026-04-29T07:54:12.992Z","event":"tool.start","session_id":"sess_mojre3ut_hlffw9","req_id":"req_mojre3uz_deggw0","payload":{"tool":"NowTime","timezone":"Asia/Shanghai"}}
+{"ts":"2026-04-29T07:54:13.011Z","event":"tool.success","session_id":"sess_mojre3ut_hlffw9","req_id":"req_mojre3uz_deggw0","payload":{"tool":"NowTime","output":"Asia/Shanghai 2026/04/29 15:54:13"}}
+{"ts":"2026-04-29T07:54:14.260Z","event":"request.end","session_id":"sess_mojre3ut_hlffw9","req_id":"req_mojre3uz_deggw0","payload":{"output_preview":"当前时间（北京时间）：**2026年4月29日 15:54:13**\n\n（已调用工具获取）"}}
+{"ts":"2026-04-29T09:49:08.035Z","event":"memory.init","session_id":"sess_mojvhxcp_a8v6lk","req_id":"","payload":{"status":"ok","mode":"default","user_id":"default_user"}}
+{"ts":"2026-04-29T09:49:08.051Z","event":"request.start","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"user_input":"现在时间?"}}
+{"ts":"2026-04-29T09:49:08.259Z","event":"memory.search","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"status":"error","error":"Failed to auto-detect embedding dimension from provider 'openai': 404 status code (no body). Please set 'dimension' in vectorStore.config or 'embeddingDims' in embedder.config explicitly."}}
+{"ts":"2026-04-29T09:49:09.446Z","event":"tool.start","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"tool":"NowTime","timezone":"Asia/Shanghai"}}
+{"ts":"2026-04-29T09:49:09.499Z","event":"tool.success","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"tool":"NowTime","output":"Asia/Shanghai 2026/04/29 17:49:09"}}
+{"ts":"2026-04-29T09:49:10.385Z","event":"memory.write","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"status":"error","error":"Failed to auto-detect embedding dimension from provider 'openai': 404 status code (no body). Please set 'dimension' in vectorStore.config or 'embeddingDims' in embedder.config explicitly."}}
+{"ts":"2026-04-29T09:49:10.385Z","event":"request.end","session_id":"sess_mojvhxcp_a8v6lk","req_id":"req_mojvhxeb_8ux10x","payload":{"output_preview":"现在是 **2026年4月29日（周三）17:49**（北京时间）。\n\n（已调用工具）"}}
+{"ts":"2026-04-29T09:49:40.954Z","event":"memory.init","session_id":"sess_mojvims4_b6brwx","req_id":"","payload":{"status":"skipped","reason":"MEM0_ENABLED != 1"}}
+{"ts":"2026-04-29T09:49:40.956Z","event":"request.start","session_id":"sess_mojvims4_b6brwx","req_id":"req_mojvimsc_dpyvly","payload":{"user_input":"现在时间?"}}
+{"ts":"2026-04-29T09:49:42.235Z","event":"tool.start","session_id":"sess_mojvims4_b6brwx","req_id":"req_mojvimsc_dpyvly","payload":{"tool":"NowTime","timezone":"Asia/Shanghai"}}
+{"ts":"2026-04-29T09:49:42.253Z","event":"tool.success","session_id":"sess_mojvims4_b6brwx","req_id":"req_mojvimsc_dpyvly","payload":{"tool":"NowTime","output":"Asia/Shanghai 2026/04/29 17:49:42"}}
+{"ts":"2026-04-29T09:49:43.286Z","event":"request.end","session_id":"sess_mojvims4_b6brwx","req_id":"req_mojvimsc_dpyvly","payload":{"output_preview":"现在是 **2026年4月29日 17:49**（北京时间，东八区）。\n\n（已调用工具 NowTime）"}}

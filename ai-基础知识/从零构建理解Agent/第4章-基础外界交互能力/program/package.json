@@ -7,8 +7,7 @@
     "dev": "ts-node src/main.ts",
     "build": "tsc",
     "start": "node dist/main.js",
-    "react": "ts-node src/main.ts",
-    "sdk": "tsx src/sdk_main.ts",
+    "sdk": "tsx src/main.ts",
     "test": "npm run build && node --test dist/test/**/*.test.js"
   },
   "keywords": [],
@@ -24,6 +23,7 @@
   "dependencies": {
     "@openai/agents": "^0.8.5",
     "dotenv": "^17.4.2",
+    "mem0ai": "^3.0.2",
     "zod": "^4.3.6"
   }
 }
