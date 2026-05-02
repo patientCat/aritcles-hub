@@ -1,124 +1,95 @@
-# Tutorial04: 语义检索与 LLM 摘要接入位点
+# Tutorial-04：从只读到可执行（实现受限 WriteFile）
 
-本章目标：在 `tutorial03` 基础上，把“只靠关键词”升级为“关键词 + 语义检索”。
+上一节你已经完成只读工具链：`FindFile + ReadFile`。  
+这一节的关键目标是补齐“执行能力”：
 
-你将得到：
-
-1. `/sem <query>` 语义召回命令
-2. 本地向量近似实现（无需外部依赖）
-3. 后续接入 LLM 摘要的清晰位置
-
----
-
-## 1. 为什么需要语义检索
-
-关键词检索只适合“字面相同”的情况。  
-语义检索可以处理“意思接近但措辞不同”：
-
-- 记忆：`我下周三有技术面试`
-- 查询：`面试准备`
-
-关键词可能命中不到，但语义可以关联到一起。
+1. 新增 `WriteFile` 工具（允许写入文件）
+2. 保持安全边界（只允许白名单目录）
+3. 与日志/trace 串联（`session_id`、`req_id`）
 
 ---
 
-## 2. 新增文件
+## 1. 为什么必须有 WriteFile
 
-- `src/semantic_retriever.ts`
+没有 `WriteFile`，Agent 即使能生成高质量内容，也只能“说出来”，不能真正落地到文件。
 
-核心思路：
+典型失败表现：
 
-1. 把文本切词
-2. 映射到固定长度向量（哈希桶）
-3. 用余弦相似度算 query 与记忆的接近程度
-4. 返回 topK
+- 用户要求“写到 `data/Go_AlphaGo.md`”
+- Agent 只能回复“无法创建文件，请手动保存”
 
-关键代码片段：
+这说明当前工具链缺的是“执行闭环”：
 
-```ts
-export function rankBySemantic(query: string, items: MemoryItem[], topK = 5) {
-  const queryVec = textToVector(query.trim());
-  const scored = items
-    .map((item) => ({
-      item,
-      score: cosineSimilarity(queryVec, textToVector(item.content)),
-    }))
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score);
-
-  return scored.slice(0, Math.max(0, topK));
-}
-```
+- `FindFile`：发现
+- `ReadFile`：读取
+- `WriteFile`：写入（本章补齐）
 
 ---
 
-## 3. 在 MemoryManager 中接入
+## 2. WriteFile 设计要求
 
-新增方法：
+参数建议：
 
-```ts
-retrieveSemanticContext(query: string, topK = 5): MemoryItem[] {
-  const all = [...this.longTerm, ...this.shortTerm];
-  return rankBySemantic(query, all, topK).map((x) => x.item);
-}
-```
+1. `relativePath: string`：目标相对路径
+2. `content: string`：写入内容
+3. `mode: "overwrite" | "append"`：覆盖或追加（默认 `overwrite`）
+4. `createDirs: boolean`：是否自动创建父目录（默认 `true`）
 
-这样你就有两条召回链路：
+返回建议：
 
-- `/ctx`：关键词 + 最近 + 高重要度
-- `/sem`：语义相似度 topK
+- 成功：`写入成功: <path> (chars=<n>)`
+- 失败：统一错误格式，包含原因（越权、目录不存在、权限错误等）
 
 ---
 
-## 4. CLI 增加命令
+## 3. 安全边界（必须）
 
-`src/main.ts` 已增加：
+1. 路径白名单
+- 只允许写入 `data/`（建议先不要开放 `src/`）
 
-- `/sem <query>`
+2. 规范化路径
+- `path.resolve(process.cwd(), relativePath)` 后再校验
+- 防止 `../` 穿透
 
-示例：
+3. 文件大小限制
+- 例如单次写入不超过 `200KB`
 
-```text
-/add user 5 我下周三有技术面试
-/add user 3 我准备复习系统设计
-/sem 面试准备
-```
-
----
-
-## 5. 运行验证
-
-```bash
-npm run dev
-```
-
-建议顺序：
-
-1. 先写入 3-5 条相近但不完全同词的记忆
-2. 用 `/search` 看关键词命中
-3. 用 `/sem` 看语义命中
-4. 对比两者差异
+4. 可选扩展名限制
+- 首版建议仅允许 `.md/.txt/.json`
 
 ---
 
-## 6. LLM 摘要接入位点
+## 4. Agent 策略（要写进 instructions）
 
-你现在的摘要器是规则版：`src/summarizer.ts`。  
-下一步只需要把：
+必须显式约束：
 
-- `buildSummary(items)`  
-
-替换成“调用 LLM 生成摘要”的实现即可。建议保留兜底：
-
-1. LLM 失败 -> 退回规则摘要
-2. 摘要文本长度设上限
-3. 摘要写入 `role=system`, `tier=summary`
+1. 当用户明确要求“保存/写入文件”时，优先调用 `WriteFile`
+2. 如果目标文件已存在且用户未说明，先提示将覆盖并请求确认（或默认 `overwrite`，但要告知）
+3. 写入后回复路径与结果，不要只给正文
 
 ---
 
-## 7. 你当前阶段的标准
+## 5. 可观测性要求
 
-1. 能解释 `/ctx` 和 `/sem` 的区别
-2. 知道语义检索是“近似相关”不是“精准匹配”
-3. 知道 LLM 摘要应该接在哪里，而不是重写整个系统
+在 `business.ndjson` 增加事件：
+
+1. `tool.start`：`WriteFile` 调用开始
+2. `tool.success`：写入成功（记录 `path/chars/mode`）
+3. `tool.error`：写入失败（记录 `path/error`）
+
+并保持：
+
+- `session_id`
+- `req_id`
+
+这样可以与 `traces.ndjson` 完整串联。
+
+---
+
+## 6. 验收标准
+
+1. 输入“把文章写到 `data/Go_AlphaGo.md`”可自动落盘成功
+2. 越权路径（如 `../secret.txt`）被拒绝
+3. `append` 模式可追加，不破坏原内容
+4. 日志中可看到完整写入链路（start/success/error）
 

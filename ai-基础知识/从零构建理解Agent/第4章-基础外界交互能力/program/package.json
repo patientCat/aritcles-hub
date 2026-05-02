@@ -2,11 +2,11 @@
   "name": "program",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/src/main.js",
   "scripts": {
     "dev": "ts-node src/main.ts",
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start": "node dist/src/main.js",
     "sdk": "tsx src/main.ts",
     "test": "npm run build && node --test dist/test/**/*.test.js"
   },

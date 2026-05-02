@@ -1,144 +1,89 @@
-# Tutorial05: 让 Memory 进入可维护阶段（观测 + 评测 + 治理）
+# Tutorial-05：新增 Bash 命令工具（BashExec）
 
-你现在已经具备：
-
-1. 分层记忆（short/long/summary）
-2. 关键词召回 + 语义召回
-3. LLM 摘要（含回退）
-
-这一章目标：把“能跑”升级为“可评估、可调优、可长期维护”。
+第4章前几节你已经有了文件与网络基础能力。  
+这一节新增一个高通用工具：`BashExec`，让 Agent 能执行终端命令做环境排查和自动化操作。
 
 ---
 
-## 1. 为什么要做 05
+## 1. 目标
 
-到 04 为止，系统已经可用，但你还不知道：
-
-- 召回到底准不准？
-- 摘要到底稳不稳？
-- 哪些记忆污染了长期库？
-
-05 的核心是建立三件事：
-
-1. 可观测（看见系统行为）
-2. 可评测（量化效果）
-3. 可治理（控制记忆质量）
+1. 增加 `BashExec` 工具
+2. 支持执行 `bash -lc "<command>"`
+3. 返回 `stdout/stderr`
+4. 增加超时、输出截断、日志记录
 
 ---
 
-## 2. 新增目录建议
+## 2. 最小实现点
 
-```text
-program/
-├── eval/
-│   ├── dataset.jsonl
-│   └── run_eval.ts
-├── logs/
-│   └── memory_events.jsonl
-└── src/
-    ├── metrics.ts
-    ├── memory_policy.ts
-    └── ...
-```
+在 `src/main.ts` 中：
 
----
+1. 使用 `execFile` 执行命令
+2. 固定 `cwd=process.cwd()`
+3. 增加超时（例如 `12s`）
+4. 限制输出大小（例如 `8000` 字符）
 
-## 3. 可观测：先打事件日志
+核心参数建议：
 
-你需要记录这些事件：
-
-- `memory_add`
-- `summary_generated`
-- `retrieve_ctx`
-- `retrieve_sem`
-
-关键代码片段（示例）：
-
-```ts
-export function logEvent(event: string, payload: Record<string, unknown>): void {
-  const line = JSON.stringify({
-    ts: new Date().toISOString(),
-    event,
-    payload,
-  });
-  fs.appendFileSync("logs/memory_events.jsonl", `${line}\n`, "utf-8");
-}
-```
-
-你至少要记录：
-
-1. 输入 query
-2. 返回条目数
-3. topK id 和分数（语义检索）
-4. 摘要长度、是否走 LLM 或 fallback
+- `BASH_TIMEOUT_MS=12000`
+- `BASH_MAX_OUTPUT_CHARS=8000`
 
 ---
 
-## 4. 可评测：定义最小指标
+## 3. 安全边界（必须明确）
 
-建议从 3 个指标开始：
+`BashExec` 风险高于文件工具，建议在教程中明确：
 
-1. `Recall@K`：正确记忆是否出现在前 K 条
-2. `MRR`：正确记忆出现位置越靠前越好
-3. `Summary Coverage`：摘要覆盖关键信息比例
-
-评测数据格式（`eval/dataset.jsonl`）：
-
-```json
-{"query":"面试准备","must_hit":["面试","系统设计"],"forbid":[]}
-{"query":"候选人目标","must_hit":["P7"],"forbid":["无关话题"]}
-```
+1. 仅在用户明确要求时调用
+2. 默认用于“诊断/查询”而不是破坏性操作
+3. 对删除/覆盖类命令增加额外确认（下一章可加 HITL）
+4. 完整记录命令与结果到 `business.ndjson`
 
 ---
 
-## 5. 可治理：给长期记忆加生命周期
+## 4. Agent 指令策略
 
-长期记忆不是越多越好。建议加三条策略：
+在 `instructions` 加入：
 
-1. 时间衰减：超过 N 天自动降权
-2. 访问强化：被召回就升一点权重
-3. 污染清理：低权重且长期未命中的条目淘汰
-
-关键代码片段（示例）：
-
-```ts
-export function decayImportance(item: MemoryItem, now = Date.now()): number {
-  const ageDays = (now - Date.parse(item.ts)) / (1000 * 60 * 60 * 24);
-  const decayed = item.importance - Math.floor(ageDays / 14);
-  return Math.max(1, Math.min(5, decayed));
-}
-```
+- 可以使用 `BashExec` 做命令行排查与自动化
+- 先优先安全工具（`ReadFile/FindFile`），再考虑 `BashExec`
+- 当命令失败时，返回失败原因与 stderr 摘要
 
 ---
 
-## 6. 召回链路升级建议
+## 5. 可观测性
 
-将 `/ctx` 升级为两阶段：
+`BashExec` 需要记录：
 
-1. 粗召回：关键词 + 语义 topK（并集）
-2. 精排：按 `importance + freshness + semantic_score` 重新排序
+1. `tool.start`：命令内容
+2. `tool.success`：输出字符数
+3. `tool.error`：失败原因
 
-排序示例：
+并带上：
 
-```ts
-score = 0.45 * semantic + 0.35 * importance + 0.20 * freshness
-```
+- `session_id`
+- `req_id`
 
----
-
-## 7. 05 的完成标准
-
-你完成这章时，至少满足：
-
-1. 有日志文件，能追踪一次 query 的召回过程
-2. 有评测脚本，能输出 Recall@K / MRR
-3. 有记忆治理策略，长期库不会无限膨胀
+这样可以与 `traces.ndjson` 串联完整链路。
 
 ---
 
-## 8. 下一步（Tutorial06）
+## 6. 验收标准
 
-1. 引入真正的 embedding 模型（替代本地哈希向量）
-2. 把 long-term 存到向量数据库（Qdrant/pgvector）
-3. 做在线 A/B：比较旧召回策略和新策略效果
+1. 用户请求“执行 `ls -la`”时，Agent 能调用 `BashExec` 并返回输出
+2. 超时命令会被中断并返回错误
+3. 过长输出会被截断
+4. 日志里有完整 `start/success/error` 记录
+
+---
+
+## 7. 本章结论
+
+`BashExec` 是“通用但高风险”的环境交互工具。  
+它能显著提升 Agent 的排障与自动化能力，但必须配套：
+
+- 超时
+- 输出限制
+- 审计日志
+- 行为策略约束
 

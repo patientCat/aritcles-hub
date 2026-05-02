@@ -1,156 +1,110 @@
-# Tutorial03: 分层记忆与自动摘要（TypeScript）
+# Tutorial-03：文件工具的工业级安全设计（白名单、自动发现、可观测）
 
-你已经完成了 `tutorial01` 和 `tutorial02` 的核心概念。  
-这一章把 memory 升级到更接近真实 Agent 的方案：
+这一节解决一个经典问题：
 
-1. 短期记忆 `short-term`
-2. 长期记忆 `long-term`
-3. 自动摘要 `summary memory`
+> 用户说“读取 `short_memory.json`”，但 agent 因路径不在白名单而失败。
 
----
-
-## 1. 设计目标
-
-- 短期记忆：保存最近对话，默认只放内存（更快、更干净）
-- 长期记忆：保存高价值事实，落库持久化
-- 自动摘要：每积累一段短期对话，自动压缩成一条摘要存入长期
+目标：既安全，又尽量“自动帮用户找到文件”。
 
 ---
 
-## 2. 文件说明
+## 1. 问题本质
 
-本章对应代码：
+单一 `ReadFile(relativePath)` 在真实场景会频繁失败：
 
-- `src/types.ts`：基础类型定义
-- `src/memory_manager.ts`：分层记忆核心逻辑
-- `src/summarizer.ts`：规则摘要器
-- `src/storage.ts`：持久化读写
-- `src/main.ts`：CLI 交互入口
+- 用户不给目录，只给文件名
+- 运行目录变化导致相对路径错位
+- 白名单严格限制导致越权拒绝
 
-持久化文件：
-
-- `data/long_memory.json`
-
-说明：
-
-- 推荐实战策略：`short-term` 不落库，重启后可丢失
-- `long-term` 落库，用于跨会话恢复
-- 你当前代码里同时保存了 short/long，便于学习和调试；后续可按上面策略简化
+如果只返回“路径不允许”，体验差且排障成本高。
 
 ---
 
-## 3. 关键逻辑
+## 2. 推荐架构：两阶段工具
 
-### 3.1 写入规则
+工业界常见方案：
 
-`add(role, content, importance)`：
+1. `FindFile`（只找，不读）
+2. `ReadFile`（只读，且仅限授权）
 
-- 所有记录先进入短期记忆
-- 当 `importance >= 4` 或 `role=system`，同步写入长期记忆
-- 每达到 `summaryEvery`（默认 20）条短期记录，自动生成一条摘要，写入长期记忆
+流程：
 
-关键代码片段（保留）：
+1. 先尝试原路径读
+2. 失败后自动调用 `FindFile` 在白名单根目录内搜索候选
+3. 候选唯一 -> 自动重试读取
+4. 候选多个 -> 让用户选路径
 
-```ts
-add(role: Role, content: string, importance = 3): MemoryItem {
-  const item: MemoryItem = {
-    id: createId(),
-    role,
-    content: content.trim(),
-    ts: new Date().toISOString(),
-    importance: clampImportance(importance),
-    tier: "short",
-  };
+这样兼顾：
 
-  this.shortTerm.push(item);
-  if (this.shortTerm.length > this.shortMaxItems) this.shortTerm.shift();
-
-  if (item.importance >= 4 || role === "system") {
-    this.addLongTerm({ ...item, tier: "long" });
-  }
-
-  if (this.shortTerm.length > 0 && this.shortTerm.length % this.summaryEvery === 0) {
-    this.makeSummaryFromRecent();
-  }
-
-  return item;
-}
-```
-
-### 3.2 召回规则
-
-`retrieveContext(keyword)` 合并三路：
-
-1. 关键词命中
-2. 最近短期上下文
-3. 长期高重要度记录
-
-然后去重并按时间排序，作为给 LLM 的最终上下文。
-
-关键代码片段（保留）：
-
-```ts
-retrieveContext(keyword: string, recentN = 6, importantN = 4): MemoryItem[] {
-  const byKeyword = this.search(keyword);
-  const byRecent = this.recentShort(recentN);
-  const byImportant = this.topImportant(importantN);
-  const map = new Map<string, MemoryItem>();
-
-  [...byKeyword, ...byRecent, ...byImportant].forEach((it) => map.set(it.id, it));
-  return [...map.values()].sort((a, b) => a.ts.localeCompare(b.ts));
-}
-```
-
-### 3.3 持久化边界（推荐）
-
-推荐只持久化长期记忆：
-
-```ts
-// storage.ts (推荐策略)
-export function saveLongTerm(items: MemoryItem[]): void {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  fs.writeFileSync(LONG_PATH, JSON.stringify(items, null, 2), "utf-8");
-}
-```
-
-这样做的好处：
-
-- 重启后仍保留核心事实
-- 不把短期噪声写进磁盘
-- 维护成本更低
+- 安全边界不放松
+- 成功率显著提升
 
 ---
 
-## 4. 运行方式
+## 3. 为什么不直接给 agent 通用 grep 命令
 
-```bash
-npm run dev
-```
+不建议直接暴露开放 shell/grep：
 
-命令：
+- 权限面过大
+- 可读范围难控制
+- 容易引入命令注入风险
 
-- `/add user 5 我下周三有系统设计面试`
-- `/recent 5`
-- `/long 5`
-- `/top 5`
-- `/search 面试`
-- `/ctx 面试`
-- `/exit`
+推荐做“受限搜索工具”：
+
+- 内部可用 `rg --files` 或目录索引
+- 仅扫描白名单根目录
+- 仅返回路径列表，不返回文件内容
 
 ---
 
-## 5. 你现在应关注的工程点
+## 4. 字段与日志串联
 
-1. `importance` 是否有明确业务规则（谁来打分）
-2. `summaryEvery` 是否合适（太大太小都不理想）
-3. 短期和长期容量上限是否合理
-4. 摘要是否足够稳定（规则摘要 vs LLM 摘要）
+要让“自动尝试路径”可排障，日志至少记录：
+
+- `session_id`
+- `req_id`
+- `tool`
+- `input_path`
+- `candidate_paths`
+- `selected_path`
+- `status`
+
+并且和 trace 同步，便于回答：
+
+- 这次失败是越权、找不到，还是多候选冲突
+- 自动重试发生在哪一步
 
 ---
 
-## 6. 下一步（Tutorial04 建议）
+## 5. 最小落地策略
 
-1. 给摘要器接入 LLM（替代规则摘要）
-2. 引入向量检索（语义召回，不只关键词）
-3. 增加“记忆衰减”机制（按时间自动降权）
-4. 增加单元测试（`memory_manager` 核心场景）
+在你当前项目中建议这样改：
+
+1. 保留 `ReadFile` 白名单校验（不降权限）
+2. 新增 `FindFile` 工具（白名单内搜索）
+3. 在指令中明确：
+- `ReadFile` 失败时优先 `FindFile` 再重试
+4. 业务日志增加 `file.resolve.*` 事件
+
+---
+
+## 6. 验收标准
+
+1. 输入裸文件名（如 `short_memory.json`）可自动命中唯一候选并成功读取
+2. 多候选时 agent 会列出可选路径而不是盲读
+3. 越权路径仍被拒绝
+4. 日志可还原“原路径 -> 搜索 -> 重试 -> 最终路径”的全过程
+
+---
+
+## 7. 本章总结（你遇到的问题）
+
+你遇到的“白名单拒绝读取”不是 bug，而是安全设计生效。工业级解法不是放开权限，而是：
+
+- 在权限边界内增加“发现能力”（`FindFile`）
+- 在调用链中加入“失败后自动重试策略”
+- 用 `session_id/req_id` 做跨日志串联
+
+关键方法论：
+
+**单执行工具不具备自恢复能力；Agent 需要“发现工具 + 执行工具”的最小闭环，才能在不放宽权限的前提下稳定完成任务。**

@@ -1,109 +1,107 @@
-# Tutorial07: 记忆模块化 + 引入 ReAct + 完整测试
+# Tutorial-07：让 Agent 自我观察与自我修复
 
-本章目标：
+这一章的核心不是“再加一个工具”，而是建立闭环：
 
-1. 将记忆能力模块化（从 CLI 解耦）
-2. 引入第 1 章风格的 ReAct Agent（Thought/Action/Finish）
-3. 补齐可执行测试，确保改造可持续迭代
+1. 观察（Observe）
+2. 诊断（Diagnose）
+3. 修复（Repair）
+4. 验证（Verify）
 
----
-
-## 1. 新结构
-
-```text
-src/
-├── memory/
-│   └── module.ts
-├── react/
-│   ├── core.ts
-│   ├── http_llm.ts
-│   └── memory_tools.ts
-├── main.ts
-└── ...
-test/
-├── memory_module.test.ts
-└── react_agent.test.ts
-```
+你在前面遇到的几个真实问题（路径白名单、bash 限制、embedding 维度错配）正是本章素材。
 
 ---
 
-## 2. 模块化记忆
+## 1. 什么是“自我观察”
 
-`src/memory/module.ts` 提供统一接口：
+Agent 的“自我观察”不是意识，而是读取自身运行证据：
 
-- `init()`
-- `record(role, content, importance)`
-- `retrieveContext(...)`
-- `retrieveSemanticContext(...)`
-- `flush()`
+1. `data/business.ndjson`：业务事件日志（tool.start/success/error）
+2. `data/traces.ndjson`：调用链追踪（trace/span）
 
-这样 `main.ts`、ReAct 工具层、测试都可以复用同一套 memory API。
+最关键串联键：
 
----
+- `session_id`
+- `req_id`
 
-## 3. 引入第 1 章 ReAct 模型
-
-`src/react/core.ts` 复用了第 1 章核心机制：
-
-1. 模型输出格式：`Thought + Action/Finish`
-2. 工具执行循环：最多 `maxSteps`
-3. `Finish[...]` 作为最终答案出口
-
-`src/react/memory_tools.ts` 把记忆能力包装成工具：
-
-- `MemoryRecall[input]`
-- `MemorySemantic[input]`
-- `SaveMemory[role|importance|content]`
+通过这两个字段，Agent 可以定位“某次请求到底发生了什么”。
 
 ---
 
-## 4. 运行方式
+## 2. 最小诊断流程（MVP）
 
-### 4.1 记忆 CLI（原模式）
+当出现失败输出时，固定执行以下流程：
 
-```bash
-npm run dev
-```
-
-### 4.2 ReAct 模式
-
-```bash
-npm run react -- "请回忆我之前的面试准备重点并给建议"
-```
-
-环境变量要求：
-
-- `OPENAI_API_KEY`
-- `OPENAI_BASE_URL`
-- `OPENAI_MODEL`
+1. 锁定会话：拿到 `session_id`
+2. 锁定请求：拿到 `req_id`
+3. 回放日志：筛出对应 `tool.error` 事件
+4. 分类故障：
+- 权限类（路径不在白名单）
+- 策略类（工具可用但没被调用）
+- 参数类（维度不匹配）
+- 资源类（超时 / 输出过大 / Permission denied）
 
 ---
 
-## 5. 完整测试
+## 3. 修复策略模板
 
-```bash
-npm test
-```
+每类故障对应固定修复动作：
 
-测试覆盖：
+1. 权限类
+- 调整白名单根目录
+- 增加 `FindFile` 作为前置发现工具
 
-1. `memory_module.test.ts`
-   - 记忆写入与召回
-   - 本地 `vector_store.json` 写入
+2. 策略类
+- 在 `instructions` 明确“失败后补救路径”
+- 例如：`ReadFile` 失败后必须 `FindFile` 再重试
 
-2. `react_agent.test.ts`
-   - ReAct 调用记忆工具并 `Finish`
-   - 超过步数未 `Finish` 返回 `null`
+3. 参数类
+- 用“探测命令”确认真实参数（如 embedding 实际维度）
+- 回写 `.env` 并重建本地状态（如 `memory.db`）
+
+4. 资源类
+- 限制输出大小、超时
+- 用分段命令替代重操作（避免 `ls -R` 全量炸输出）
 
 ---
 
-## 6. 当前状态结论
+## 4. 验证标准（必须）
 
-你现在已经拥有：
+修复后不能只看“感觉好了”，必须有验证记录：
 
-1. 可复用的 memory 模块层
-2. 可插拔的 ReAct 推理层
-3. 可执行的回归测试基础
+1. 同场景重放一次请求
+2. 检查 `business.ndjson`：
+- 失败事件消失或明显下降
+- 关键工具调用路径正确（例如 `FindFile -> ReadFile`）
+3. 给出“修复前 vs 修复后”对比
 
-这意味着后续你可以安全地继续升级：替换模型、替换向量库、替换工具策略，而不必每次重写主流程。
+---
+
+## 5. 本项目中的典型案例
+
+1. `short_memory.json` 读取失败
+- 原因：只调用 `ReadFile`，路径越权
+- 修复：`FindFile` + 策略约束 + 白名单调整
+
+2. Mem0 维度错配
+- 原因：`MEM0_EMBED_DIMS` 与实际输出不一致
+- 修复：探测真实输出维度 -> 修正 `.env` -> 重建 `memory.db`
+
+3. Bash 命令频繁失败
+- 原因：命令触发白名单与控制符限制
+- 修复：限制命令集合 + 调整排查命令习惯（不用管道重定向）
+
+---
+
+## 6. 本章方法论
+
+把“模型回答错误”改写成“系统状态可诊断”问题。
+
+即：
+
+- 不靠猜
+- 不靠人工记忆
+- 靠日志与追踪做结构化修复
+
+这就是 Agent 工程化的起点：  
+**主循环不仅执行任务，还维护“可观察、可修复”的运行状态。**
 
