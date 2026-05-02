@@ -34,6 +34,7 @@ const MEMORY_USER_ID = (process.env.MEM0_USER_ID || "default_user").trim();
 const MEMORY_TOP_K = Number(process.env.MEM0_TOP_K || "5");
 const MEM0_COLLECTION_NAME = (process.env.MEM0_COLLECTION_NAME || "agent_memories_512").trim();
 const REMINDER_EVERY_TURNS = 3;
+const LOG_RAW_RESPONSE_MAX_CHARS = 4000;
 
 let activeSessionId = getSessionId();
 let activeReqId = "";
@@ -613,6 +614,14 @@ function cutText(input: string, maxChars: number): string {
   return `${input.slice(0, maxChars)}\n... [truncated ${input.length - maxChars} chars]`;
 }
 
+function toSafeJson(value: unknown, maxChars: number): string {
+  try {
+    return cutText(JSON.stringify(value), maxChars);
+  } catch {
+    return cutText(String(value), maxChars);
+  }
+}
+
 function getSessionId(): string {
   const fromEnv = (process.env.SESSION_ID || "").trim();
   if (fromEnv) {
@@ -693,6 +702,13 @@ async function loadMemoryContext(userInput: string): Promise<string> {
   }
 
   try {
+    await logBusinessEvent("memory.search.start", {
+      user_id: MEMORY_USER_ID,
+      session_id: activeSessionId,
+      req_id: activeReqId,
+      top_k: MEMORY_TOP_K,
+      query_chars: userInput.length,
+    });
     await logBusinessEvent("memory.search", {
       status: "start",
       user_id: MEMORY_USER_ID,
@@ -706,6 +722,16 @@ async function loadMemoryContext(userInput: string): Promise<string> {
       filters: { user_id: MEMORY_USER_ID },
     });
     const items = result.results ?? [];
+    const rawResponse = toSafeJson(result, LOG_RAW_RESPONSE_MAX_CHARS);
+    await logBusinessEvent("memory.search.success", {
+      user_id: MEMORY_USER_ID,
+      session_id: activeSessionId,
+      req_id: activeReqId,
+      top_k: MEMORY_TOP_K,
+      query_chars: userInput.length,
+      hits: items.length,
+      raw_response: rawResponse,
+    });
     await logBusinessEvent("memory.search", {
       status: "success",
       user_id: MEMORY_USER_ID,
@@ -714,6 +740,7 @@ async function loadMemoryContext(userInput: string): Promise<string> {
       top_k: MEMORY_TOP_K,
       query_chars: userInput.length,
       hits: items.length,
+      raw_response: rawResponse,
     });
     if (items.length === 0) {
       return "";
@@ -723,6 +750,19 @@ async function loadMemoryContext(userInput: string): Promise<string> {
       .join("\n");
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    const errorName = err instanceof Error ? err.name : undefined;
+    const errorStack = err instanceof Error ? cutText(err.stack || "", LOG_RAW_RESPONSE_MAX_CHARS) : undefined;
+    const rawResponse = toSafeJson(err, LOG_RAW_RESPONSE_MAX_CHARS);
+    await logBusinessEvent("memory.search.error", {
+      user_id: MEMORY_USER_ID,
+      session_id: activeSessionId,
+      req_id: activeReqId,
+      query_chars: userInput.length,
+      error: message,
+      error_name: errorName,
+      error_stack: errorStack,
+      raw_response: rawResponse,
+    });
     await logBusinessEvent("memory.search", {
       status: "error",
       user_id: MEMORY_USER_ID,
@@ -730,6 +770,9 @@ async function loadMemoryContext(userInput: string): Promise<string> {
       req_id: activeReqId,
       query_chars: userInput.length,
       error: message,
+      error_name: errorName,
+      error_stack: errorStack,
+      raw_response: rawResponse,
     });
     return "";
   }
