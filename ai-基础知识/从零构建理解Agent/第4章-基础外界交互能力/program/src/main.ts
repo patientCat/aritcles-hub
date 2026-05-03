@@ -517,11 +517,29 @@ async function runSingleTurn(userInput: string): Promise<void> {
     },
   });
 
-  const result = await runner.run(agent, effectiveInput);
-  await saveConversationToMemory(userInput, String(result.finalOutput ?? ""));
-  await logBusinessEvent("request.end", {
-    output_preview: String(result.finalOutput ?? "").slice(0, 300),
+  const runStartedAt = Date.now();
+  await logBusinessEvent("agent.run.start", {
+    input_chars: effectiveInput.length,
   });
+  let result;
+  try {
+    result = await runner.run(agent, effectiveInput);
+    await logBusinessEvent("agent.run.success", {
+      duration_ms: Date.now() - runStartedAt,
+      output_preview: cutText(String(result.finalOutput ?? ""), 300),
+      raw_response: toSafeJson(result, LOG_RAW_RESPONSE_MAX_CHARS),
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await logBusinessEvent("agent.run.error", {
+      duration_ms: Date.now() - runStartedAt,
+      error: message,
+      raw_response: toSafeErrorJson(err, LOG_RAW_RESPONSE_MAX_CHARS),
+    });
+    throw err;
+  }
+  await saveConversationToMemory(userInput, String(result.finalOutput ?? ""));
+  await logBusinessEvent("request.end", { output_preview: cutText(String(result.finalOutput ?? ""), 300) });
 
   console.log("\n=== Agent Output ===");
   console.log(result.finalOutput);
@@ -622,6 +640,25 @@ function toSafeJson(value: unknown, maxChars: number): string {
   }
 }
 
+function toSafeErrorJson(err: unknown, maxChars: number): string {
+  if (err instanceof Error) {
+    const anyErr = err as any;
+    const plain: Record<string, unknown> = {
+      name: err.name,
+      message: err.message,
+      stack: err.stack || "",
+      cause: anyErr.cause,
+    };
+    for (const key of Object.getOwnPropertyNames(err)) {
+      if (!(key in plain)) {
+        plain[key] = anyErr[key];
+      }
+    }
+    return toSafeJson(plain, maxChars);
+  }
+  return toSafeJson(err, maxChars);
+}
+
 function getSessionId(): string {
   const fromEnv = (process.env.SESSION_ID || "").trim();
   if (fromEnv) {
@@ -701,16 +738,9 @@ async function loadMemoryContext(userInput: string): Promise<string> {
     return "";
   }
 
+  const startedAt = Date.now();
   try {
     await logBusinessEvent("memory.search.start", {
-      user_id: MEMORY_USER_ID,
-      session_id: activeSessionId,
-      req_id: activeReqId,
-      top_k: MEMORY_TOP_K,
-      query_chars: userInput.length,
-    });
-    await logBusinessEvent("memory.search", {
-      status: "start",
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
@@ -727,16 +757,7 @@ async function loadMemoryContext(userInput: string): Promise<string> {
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
-      top_k: MEMORY_TOP_K,
-      query_chars: userInput.length,
-      hits: items.length,
-      raw_response: rawResponse,
-    });
-    await logBusinessEvent("memory.search", {
-      status: "success",
-      user_id: MEMORY_USER_ID,
-      session_id: activeSessionId,
-      req_id: activeReqId,
+      duration_ms: Date.now() - startedAt,
       top_k: MEMORY_TOP_K,
       query_chars: userInput.length,
       hits: items.length,
@@ -752,22 +773,12 @@ async function loadMemoryContext(userInput: string): Promise<string> {
     const message = err instanceof Error ? err.message : String(err);
     const errorName = err instanceof Error ? err.name : undefined;
     const errorStack = err instanceof Error ? cutText(err.stack || "", LOG_RAW_RESPONSE_MAX_CHARS) : undefined;
-    const rawResponse = toSafeJson(err, LOG_RAW_RESPONSE_MAX_CHARS);
+    const rawResponse = toSafeErrorJson(err, LOG_RAW_RESPONSE_MAX_CHARS);
     await logBusinessEvent("memory.search.error", {
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
-      query_chars: userInput.length,
-      error: message,
-      error_name: errorName,
-      error_stack: errorStack,
-      raw_response: rawResponse,
-    });
-    await logBusinessEvent("memory.search", {
-      status: "error",
-      user_id: MEMORY_USER_ID,
-      session_id: activeSessionId,
-      req_id: activeReqId,
+      duration_ms: Date.now() - startedAt,
       query_chars: userInput.length,
       error: message,
       error_name: errorName,
@@ -783,9 +794,9 @@ async function saveConversationToMemory(userInput: string, assistantOutput: stri
     return;
   }
 
+  const startedAt = Date.now();
   try {
-    await logBusinessEvent("memory.write", {
-      status: "start",
+    await logBusinessEvent("memory.write.start", {
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
@@ -793,7 +804,7 @@ async function saveConversationToMemory(userInput: string, assistantOutput: stri
       assistant_chars: assistantOutput.length,
       chars: userInput.length + assistantOutput.length,
     });
-    await memory.add(
+    const writeResult = await memory.add(
       [
         { role: "user", content: userInput },
         { role: "assistant", content: assistantOutput },
@@ -806,26 +817,28 @@ async function saveConversationToMemory(userInput: string, assistantOutput: stri
         },
       },
     );
-    await logBusinessEvent("memory.write", {
-      status: "success",
+    await logBusinessEvent("memory.write.success", {
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
+      duration_ms: Date.now() - startedAt,
       user_chars: userInput.length,
       assistant_chars: assistantOutput.length,
       chars: userInput.length + assistantOutput.length,
+      raw_response: toSafeJson(writeResult, LOG_RAW_RESPONSE_MAX_CHARS),
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    await logBusinessEvent("memory.write", {
-      status: "error",
+    await logBusinessEvent("memory.write.error", {
       user_id: MEMORY_USER_ID,
       session_id: activeSessionId,
       req_id: activeReqId,
+      duration_ms: Date.now() - startedAt,
       user_chars: userInput.length,
       assistant_chars: assistantOutput.length,
       chars: userInput.length + assistantOutput.length,
       error: message,
+      raw_response: toSafeErrorJson(err, LOG_RAW_RESPONSE_MAX_CHARS),
     });
   }
 }
