@@ -26,6 +26,8 @@
 
 - 从“只会说”，升级到“会做事，而且知道自己做了什么”。
 
+![Agent外界交互能力总览](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/%E7%AC%AC4%E7%AB%A0-%E5%9F%BA%E7%A1%80%E5%A4%96%E7%95%8C%E4%BA%A4%E4%BA%92%E8%83%BD%E5%8A%9B/01-framework-agent-interaction-capabilities.png)
+
 ---
 
 ## 1. 能力一：看时间（NowTime）
@@ -112,6 +114,8 @@ const findFileTool = tool({
 结论：
 
 > 单个执行工具不具备自恢复能力；Agent 需要“发现 + 执行”的最小闭环。
+
+![ReadFile自恢复闭环流程](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/%E7%AC%AC4%E7%AB%A0-%E5%9F%BA%E7%A1%80%E5%A4%96%E7%95%8C%E4%BA%A4%E4%BA%92%E8%83%BD%E5%8A%9B/02-flowchart-readfile-self-recovery.png)
 
 ### 2.3 从精确匹配升级为意图检索
 
@@ -205,6 +209,8 @@ await memory.add(
 
 > 不是“先把报错改没”，而是“先把可观测性建好，再修”。
 
+![记忆系统可观测性三层架构](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/%E7%AC%AC4%E7%AB%A0-%E5%9F%BA%E7%A1%80%E5%A4%96%E7%95%8C%E4%BA%A4%E4%BA%92%E8%83%BD%E5%8A%9B/03-framework-memory-observability-stack.png)
+
 ---
 
 ## 4. 能力四：写（Create / Edit / Delete）
@@ -296,6 +302,8 @@ Bash 不属于基础写能力，它是运维/诊断增强能力。
 
 - 从“调模型输出”
 - 到“做可诊断、可修复的系统”
+
+![自我观察与自我修复闭环](https://luke-1307356219.cos.ap-chongqing.myqcloud.com/%E7%AC%AC4%E7%AB%A0-%E5%9F%BA%E7%A1%80%E5%A4%96%E7%95%8C%E4%BA%A4%E4%BA%92%E8%83%BD%E5%8A%9B/04-flowchart-self-repair-loop.png)
 
 ---
 
